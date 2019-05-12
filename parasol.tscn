@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://parasol.dae" type="PackedScene" id=1]
+
+[sub_resource type="SphereShape" id=1]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 6.45932, 0, 0, 0, 2.68347, 0, 0, 0, 6.90964, 0, 10.6928, 0 )
+shape = SubResource( 1 )
+
+[node name="Scene Root" parent="StaticBody/CollisionShape" instance=ExtResource( 1 )]
+transform = Transform( 1.54815, 0, 0, 0, 3.72652, 0, 0, 0, 1.44725, -0.00903657, -2.66227, -0.00262209 )
+

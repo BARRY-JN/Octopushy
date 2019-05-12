@@ -1,0 +1,6 @@
+C:\Users\Jean-Noel\Documents\projets godot\niveau 1\.mono\temp\bin\Tools\niveau 1.dll
+C:\Users\Jean-Noel\Documents\projets godot\niveau 1\.mono\temp\bin\Tools\niveau 1.pdb
+C:\Users\Jean-Noel\Documents\projets godot\niveau 1\.mono\temp\obj\Tools\niveau 1.csprojAssemblyReference.cache
+C:\Users\Jean-Noel\Documents\projets godot\niveau 1\.mono\temp\obj\Tools\niveau 1.csproj.CoreCompileInputs.cache
+C:\Users\Jean-Noel\Documents\projets godot\niveau 1\.mono\temp\obj\Tools\niveau 1.dll
+C:\Users\Jean-Noel\Documents\projets godot\niveau 1\.mono\temp\obj\Tools\niveau 1.pdb
