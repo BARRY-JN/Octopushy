@@ -93,7 +93,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( -1, -1, 0 ) ]
 }
 
-[node name="Spatial" type="Spatial"]
+[node name="niveau 1" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035038, -0.166994, 0.0841446 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -128,17 +128,21 @@ current = true
 far = 899.7
 
 [node name="Ennemies_and_platforms" type="Spatial" parent="."]
+editor/display_folded = true
 
 [node name="Platforms" type="Spatial" parent="Ennemies_and_platforms"]
+editor/display_folded = true
 
 [node name="manta_ray" parent="Ennemies_and_platforms/Platforms" instance=ExtResource( 1 )]
-transform = Transform( 0.924435, -0.0404361, -0.379189, 0, 0.994363, -0.106037, 0.381339, 0.0980246, 0.919224, -187.782, 1.86513, -165.702 )
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 0.999972, 0.00765207, 0, -0.00765208, 0.999971, -211.593, 3.58589, 135.423 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Ennemies_and_platforms/Platforms/manta_ray"]
 autoplay = "ray_loop"
 anims/ray_loop = SubResource( 2 )
 
 [node name="Ennemies" type="Spatial" parent="Ennemies_and_platforms"]
+editor/display_folded = true
 
 [node name="sea_urchin" parent="Ennemies_and_platforms/Ennemies" instance=ExtResource( 2 )]
 transform = Transform( 0.952643, 0, 0.304093, 0, 1, 0, -0.304093, 0, 0.952643, 43.8914, 12.8495, 58.3848 )
@@ -201,6 +205,7 @@ transform = Transform( 0.480391, 0.520539, 0.705878, -0.509183, 0.820832, -0.258
 transform = Transform( 0.894638, 0.263574, 0.360766, -0.117871, 0.918087, -0.378448, -0.430964, 0.29605, 0.852423, 74.6477, 20.6667, 315.085 )
 
 [node name="Landscape" type="Spatial" parent="."]
+editor/display_folded = true
 
 [node name="islands" type="Spatial" parent="Landscape"]
 editor/display_folded = true
