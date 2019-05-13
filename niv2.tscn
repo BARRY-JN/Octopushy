@@ -1,20 +1,45 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/zylann.hterrain/tools/icons/icon_heightmap_node.svg" type="Texture" id=2]
 [ext_resource path="res://terrain_niv2/t1/data.hterrain" type="Resource" id=3]
 [ext_resource path="res://Seamless mountain rock face texture.jpg" type="Texture" id=4]
-[ext_resource path="res://terrain_niv2/lava.tres" type="Material" id=5]
-[ext_resource path="res://terrain_niv2/PIXNIO-66188-2272x1704.jpg" type="Texture" id=6]
+[ext_resource path="res://terrain_niv2/981-diffuse.jpg" type="Texture" id=5]
+[ext_resource path="res://terrain_niv2/981-bump.jpg" type="Texture" id=6]
+[ext_resource path="res://terrain_niv2/981-normal.jpg" type="Texture" id=7]
 
-[sub_resource type="PlaneMesh" id=1]
-lightmap_size_hint = Vector2( 400, 400 )
-material = ExtResource( 5 )
-size = Vector2( 400, 400 )
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 1, 0.454902, 0.454902, 1 )
+albedo_texture = ExtResource( 5 )
+metallic_specular = 1.0
+roughness = 0.68
+roughness_texture_channel = 2
+emission_enabled = true
+emission = Color( 1, 0.568627, 0.372549, 1 )
+emission_energy = 1.5
+emission_operator = 1
+emission_on_uv2 = false
+emission_texture = ExtResource( 5 )
+normal_enabled = true
+normal_scale = 16.0
+normal_texture = ExtResource( 7 )
+depth_enabled = true
+depth_scale = -0.05
+depth_deep_parallax = true
+depth_min_layers = 8
+depth_max_layers = 32
+depth_flip_tangent = false
+depth_flip_binormal = false
+depth_texture = ExtResource( 6 )
+uv1_scale = Vector3( 20, 20, 20 )
+
+[sub_resource type="PlaneMesh" id=5]
+material = SubResource( 7 )
+size = Vector2( 8000, 8000 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "lava_move"
-length = 15.0
+length = 16.0
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh:material:uv1_offset")
@@ -23,49 +48,51 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 15 ),
+"times": PoolRealArray( 0, 16 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 1, 0, 0 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:mesh:material:depth_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 7.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -0.01, -0.1 ]
-}
 
-[sub_resource type="PanoramaSky" id=3]
-panorama = ExtResource( 6 )
-
-[sub_resource type="Environment" id=4]
-background_mode = 2
-background_sky = SubResource( 3 )
-background_sky_orientation = Basis( 0, 0, 0, 0, -1, 0, 0, 0, 0 )
-ambient_light_color = Color( 1, 0.701961, 0, 1 )
+[sub_resource type="Environment" id=8]
+background_energy = 16.0
+ambient_light_color = Color( 0, 0.0509804, 0.25098, 1 )
+fog_color = Color( 0.894118, 0.376471, 0, 1 )
+fog_depth_begin = 1601.4
+ss_reflections_depth_tolerance = 0.1
+ssao_radius = 128.0
+ssao_intensity = 128.0
+ssao_intensity2 = 128.0
+ssao_bias = 1.05
+ssao_light_affect = 1.0
+dof_blur_far_distance = 2539.28
+dof_blur_far_transition = 1126.18
+dof_blur_far_quality = 2
+glow_enabled = true
+glow_intensity = 0.28
+glow_strength = 0.9
+glow_bloom = 0.42
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_saturation = 1.43
 
 [node name="Spatial" type="Spatial"]
 
-[node name="HTerrain" type="Spatial" parent="."]
+[node name="volcano" type="Spatial" parent="."]
 script = ExtResource( 1 )
 __meta__ = {
 "_editor_icon": ExtResource( 2 )
 }
+map_scale = Vector3( 20, 20, 20 )
 _terrain_data = ExtResource( 3 )
 chunk_size = 32
 shader_type = "Classic4"
 custom_shader = null
-shader_params/u_ground_uv_scale = 20
+shader_params/u_ground_uv_scale = 20.0
 shader_params/u_depth_blending = true
 shader_params/u_triplanar = false
 shader_params/u_globalmap_blend_start = null
-shader_params/u_globalmap_blend_distance = null
+shader_params/u_globalmap_blend_distance = 0.0
 ground/albedo_bump_0 = null
 ground/normal_roughness_0 = null
 ground/albedo_bump_1 = null
@@ -76,83 +103,102 @@ ground/albedo_bump_3 = ExtResource( 4 )
 ground/normal_roughness_3 = null
 _detail_objects_data = null
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( -0.81967, 0.309522, 0.482014, -0.424163, 0.237592, -0.873863, -0.385003, -0.920731, -0.0634591, 0, 205.915, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( -0.296966, 0, -0.954888, 0, 1, 0, 0.954888, 0, -0.296966, 247.828, -55.5872, 284.842 )
-mesh = SubResource( 1 )
+[node name="lava" type="MeshInstance" parent="."]
+transform = Transform( -0.296966, 0, -0.954888, 0, 1, 0, 0.954888, 0, -0.296966, 5289.48, 872.794, 5183.84 )
+cast_shadow = 0
+mesh = SubResource( 5 )
 material/0 = null
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="MeshInstance"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="lava"]
 autoplay = "lava_move"
 anims/lava_move = SubResource( 2 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 4 )
-
-[node name="SpotLight" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.0543606, 0.998521, 0, -0.998521, 0.0543606, 232.509, 157.159, 148.506 )
-light_color = Color( 1, 0.592157, 0.0705882, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 1611.7
-spot_angle = 83.7
-
-[node name="SpotLight2" type="SpotLight" parent="."]
-transform = Transform( 0.989463, 0.0329824, -0.140977, 0.144784, -0.225404, 0.963447, 0, -0.973707, -0.227805, 354.909, 157.159, 300.545 )
-light_color = Color( 1, 0.592157, 0.0705882, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 1611.7
-spot_angle = 83.7
-
-[node name="SpotLight6" type="SpotLight" parent="."]
-transform = Transform( 0.989463, 0.0329824, -0.140977, 0.144784, -0.225404, 0.963447, 0, -0.973707, -0.227805, 354.909, 157.159, 154.096 )
-light_color = Color( 1, 0.592157, 0.0705882, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 1611.7
-spot_angle = 83.7
-
-[node name="SpotLight5" type="SpotLight" parent="."]
-transform = Transform( 0.989463, 0.0329824, -0.140977, 0.144784, -0.225404, 0.963447, 0, -0.973707, -0.227805, 354.909, 157.159, 414.416 )
-light_color = Color( 1, 0.592157, 0.0705882, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 1611.7
-spot_angle = 83.7
-
-[node name="SpotLight4" type="SpotLight" parent="."]
-transform = Transform( 0.953801, -0.0684415, 0.29254, -0.300439, -0.21728, 0.928723, 0, -0.973707, -0.227805, 131.766, 157.159, 296.089 )
-light_color = Color( 1, 0.592157, 0.0705882, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 1611.7
-spot_angle = 83.7
-
-[node name="SpotLight3" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.451555, 0.892243, 0, -0.892243, -0.451555, 232.509, 157.159, 423.044 )
-light_color = Color( 1, 0.592157, 0.0705882, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 1611.7
-spot_angle = 83.7
-
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( -0.990734, -4.42893e-008, -0.135815, -0.0516324, 0.924918, 0.376644, 0.125618, 0.380166, -0.916348, 245.592, -16.1332, 183.429 )
+transform = Transform( -0.962219, 0.0240349, 0.271213, -0.0516685, 0.961878, -0.268553, -0.267328, -0.27242, -0.924296, 5315.8, 932.513, 3795.7 )
 current = true
-far = 300.0
+far = 8192.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+light_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+light_energy = 3.75
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 8 )
+
+[node name="Camera2" type="Camera" parent="."]
+transform = Transform( -0.922689, 0, 0.385545, 0, 1, 0, -0.385545, 0, -0.922689, 6938.17, 2079.01, 2934.91 )
+far = 8192.0
+
+[node name="lights" type="Spatial" parent="."]
+
+[node name="SpotLight" type="SpotLight" parent="lights"]
+transform = Transform( 0.991373, -0.00712508, -0.130877, 0.131071, 0.0538917, 0.989907, 0, -0.998521, 0.0543606, 2758.02, 3372.29, 3991.47 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 76.0676
+
+[node name="SpotLight2" type="SpotLight" parent="lights"]
+transform = Transform( 0.0104975, 0.918867, 0.394429, 0.117582, -0.392848, 0.912055, 0.993008, 0.0368035, -0.112166, 3413.1, 3372.29, 6033.15 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 76.0676
+
+[node name="SpotLight3" type="SpotLight" parent="lights"]
+transform = Transform( 0.991491, 0.098101, -0.0855682, 0.117674, -0.956513, 0.266901, -0.0556638, -0.2747, -0.959918, 3897.21, 2703.33, 6723.3 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 76.0676
+
+[node name="SpotLight4" type="SpotLight" parent="lights"]
+transform = Transform( 0.991491, 0.098101, -0.0855682, 0.117674, -0.956513, 0.266901, -0.0556638, -0.2747, -0.959918, 6180.92, 2703.33, 6723.3 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 78.75
+
+[node name="SpotLight6" type="SpotLight" parent="lights"]
+transform = Transform( -0.607907, -0.28191, -0.742277, 0.117674, -0.956513, 0.266901, -0.78524, 0.0749043, 0.614645, 6506.6, 2460.41, 6933.75 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 76.0676
+
+[node name="SpotLight7" type="SpotLight" parent="lights"]
+transform = Transform( -0.607907, -0.28191, -0.742277, 0.117674, -0.956513, 0.266901, -0.78524, 0.0749043, 0.614645, 6506.6, 1532.08, 4661.27 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 76.0676
+
+[node name="SpotLight8" type="SpotLight" parent="lights"]
+transform = Transform( -0.388922, -0.91946, -0.0577307, 0.472896, -0.253023, 0.844008, -0.790639, 0.300952, 0.533215, 4648.9, 1532.08, 4661.27 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 4.0
+light_indirect_energy = 0.0
+light_specular = 1.0
+spot_range = 4096.0
+spot_angle = 76.0676
+
+[node name="OmniLight" type="OmniLight" parent="lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7551.3, 1338.09, 8579.04 )
+light_color = Color( 1, 0.494118, 0, 1 )
+light_energy = 3.07
+light_indirect_energy = 16.0
+light_specular = 1.0
+omni_range = 2149.7
 
