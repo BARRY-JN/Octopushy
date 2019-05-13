@@ -1,104 +1,52 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/zylann.hterrain/tools/icons/icon_heightmap_node.svg" type="Texture" id=2]
 [ext_resource path="res://terrain_niv2/t1/data.hterrain" type="Resource" id=3]
 [ext_resource path="res://Seamless mountain rock face texture.jpg" type="Texture" id=4]
-[ext_resource path="res://terrain_niv2/981-normal.jpg" type="Texture" id=5]
-[ext_resource path="res://terrain_niv2/981-diffuse.jpg" type="Texture" id=6]
-[ext_resource path="res://terrain_niv2/PIXNIO-66188-2272x1704.jpg" type="Texture" id=7]
-
-[sub_resource type="VisualShaderNodeInput" id=4]
-input_name = "uv"
-
-[sub_resource type="VisualShaderNodeTexture" id=5]
-texture = ExtResource( 5 )
-
-[sub_resource type="VisualShaderNodeVec3Constant" id=6]
-constant = Vector3( 5, 5, 5 )
-
-[sub_resource type="VisualShaderNodeVectorOp" id=7]
-operator = 2
-
-[sub_resource type="VisualShaderNodeTexture" id=8]
-texture = ExtResource( 6 )
-
-[sub_resource type="VisualShader" id=9]
-code = "shader_type spatial;
-uniform sampler2D tex_frg_6;uniform sampler2D tex_frg_3;
-
-
-void vertex() {
-// Sortie:0
-
-}
-
-void fragment() {
-// Entrée:2
-	vec3 n_out2p0;
-	n_out2p0 = vec3(UV,0.0);
-
-// Vector:4
-	vec3 n_out4p0;
-	n_out4p0 = vec3(5.000000,5.000000,5.000000);
-
-// VectorOp:5
-	vec3 n_out5p0;
-	n_out5p0 = n_out2p0 * n_out4p0;
-
-// Texture:6
-	vec3 n_out6p0;
-	float n_out6p1;
-	vec4 tex_frg_6_read = texture( tex_frg_6 , n_out5p0.xy );
-	n_out6p0 = tex_frg_6_read.rgb;
-	n_out6p1 = tex_frg_6_read.a;
-
-// Texture:3
-	vec3 n_out3p0;
-	float n_out3p1;
-	vec4 tex_frg_3_read = texture( tex_frg_3 , n_out5p0.xy );
-	n_out3p0 = tex_frg_3_read.rgb;
-	n_out3p1 = tex_frg_3_read.a;
-
-// Sortie:0
-	ALBEDO = n_out6p0;
-	NORMAL = n_out6p0;
-	NORMALMAP = n_out3p0;
-	NORMALMAP_DEPTH = n_out3p1;
-
-}
-
-void light() {
-// Sortie:0
-
-}
-"
-graph_offset = Vector2( -560.585, 238 )
-nodes/fragment/2/node = SubResource( 4 )
-nodes/fragment/2/position = Vector2( -420, 340 )
-nodes/fragment/3/node = SubResource( 5 )
-nodes/fragment/3/position = Vector2( 40, 420 )
-nodes/fragment/4/node = SubResource( 6 )
-nodes/fragment/4/position = Vector2( -460, 420 )
-nodes/fragment/5/node = SubResource( 7 )
-nodes/fragment/5/position = Vector2( -240, 340 )
-nodes/fragment/6/node = SubResource( 8 )
-nodes/fragment/6/position = Vector2( 60, 200 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 5, 0, 4, 0, 5, 1, 5, 0, 3, 0, 3, 0, 0, 8, 5, 0, 6, 0, 6, 0, 0, 0, 6, 0, 0, 7, 3, 1, 0, 9 )
-
-[sub_resource type="ShaderMaterial" id=10]
-shader = SubResource( 9 )
+[ext_resource path="res://terrain_niv2/lava.tres" type="Material" id=5]
+[ext_resource path="res://terrain_niv2/PIXNIO-66188-2272x1704.jpg" type="Texture" id=6]
 
 [sub_resource type="PlaneMesh" id=1]
-material = SubResource( 10 )
-size = Vector2( 350, 350 )
+lightmap_size_hint = Vector2( 400, 400 )
+material = ExtResource( 5 )
+size = Vector2( 400, 400 )
 
-[sub_resource type="PanoramaSky" id=2]
-panorama = ExtResource( 7 )
+[sub_resource type="Animation" id=2]
+resource_name = "lava_move"
+length = 15.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh:material:uv1_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:mesh:material:depth_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 7.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -0.01, -0.1 ]
+}
 
-[sub_resource type="Environment" id=3]
+[sub_resource type="PanoramaSky" id=3]
+panorama = ExtResource( 6 )
+
+[sub_resource type="Environment" id=4]
 background_mode = 2
-background_sky = SubResource( 2 )
+background_sky = SubResource( 3 )
 background_sky_orientation = Basis( 0, 0, 0, 0, -1, 0, 0, 0, 0 )
 ambient_light_color = Color( 1, 0.701961, 0, 1 )
 
@@ -132,16 +80,19 @@ _detail_objects_data = null
 transform = Transform( -0.81967, 0.309522, 0.482014, -0.424163, 0.237592, -0.873863, -0.385003, -0.920731, -0.0634591, 0, 205.915, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( -0.296966, 0, -0.954888, 0, 1, 0, 0.954888, 0, -0.296966, 233.076, -80.6382, 259.313 )
+transform = Transform( -0.296966, 0, -0.954888, 0, 1, 0, 0.954888, 0, -0.296966, 247.828, -55.5872, 284.842 )
 mesh = SubResource( 1 )
 material/0 = null
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MeshInstance"]
+autoplay = "lava_move"
+anims/lava_move = SubResource( 2 )
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 3 )
+environment = SubResource( 4 )
 
 [node name="SpotLight" type="SpotLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.0543606, 0.998521, 0, -0.998521, 0.0543606, 232.509, 157.159, 148.506 )
-visible = false
 light_color = Color( 1, 0.592157, 0.0705882, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
@@ -152,7 +103,6 @@ spot_angle = 83.7
 
 [node name="SpotLight2" type="SpotLight" parent="."]
 transform = Transform( 0.989463, 0.0329824, -0.140977, 0.144784, -0.225404, 0.963447, 0, -0.973707, -0.227805, 354.909, 157.159, 300.545 )
-visible = false
 light_color = Color( 1, 0.592157, 0.0705882, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
@@ -163,7 +113,6 @@ spot_angle = 83.7
 
 [node name="SpotLight6" type="SpotLight" parent="."]
 transform = Transform( 0.989463, 0.0329824, -0.140977, 0.144784, -0.225404, 0.963447, 0, -0.973707, -0.227805, 354.909, 157.159, 154.096 )
-visible = false
 light_color = Color( 1, 0.592157, 0.0705882, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
@@ -174,7 +123,6 @@ spot_angle = 83.7
 
 [node name="SpotLight5" type="SpotLight" parent="."]
 transform = Transform( 0.989463, 0.0329824, -0.140977, 0.144784, -0.225404, 0.963447, 0, -0.973707, -0.227805, 354.909, 157.159, 414.416 )
-visible = false
 light_color = Color( 1, 0.592157, 0.0705882, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
@@ -185,7 +133,6 @@ spot_angle = 83.7
 
 [node name="SpotLight4" type="SpotLight" parent="."]
 transform = Transform( 0.953801, -0.0684415, 0.29254, -0.300439, -0.21728, 0.928723, 0, -0.973707, -0.227805, 131.766, 157.159, 296.089 )
-visible = false
 light_color = Color( 1, 0.592157, 0.0705882, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
@@ -196,7 +143,6 @@ spot_angle = 83.7
 
 [node name="SpotLight3" type="SpotLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.451555, 0.892243, 0, -0.892243, -0.451555, 232.509, 157.159, 423.044 )
-visible = false
 light_color = Color( 1, 0.592157, 0.0705882, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
@@ -204,4 +150,9 @@ light_bake_mode = 0
 shadow_enabled = true
 spot_range = 1611.7
 spot_angle = 83.7
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.990734, -4.42893e-008, -0.135815, -0.0516324, 0.924918, 0.376644, 0.125618, 0.380166, -0.916348, 245.592, -16.1332, 183.429 )
+current = true
+far = 300.0
 
