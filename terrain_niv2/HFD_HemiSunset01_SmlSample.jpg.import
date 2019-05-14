@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/normal.png-60cebe06964a60072e32272dd1840f79.stex"
+path="res://.import/HFD_HemiSunset01_SmlSample.jpg-d65920c3ef93ced30582880e667cadaa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://normal.png"
-dest_files=[ "res://.import/normal.png-60cebe06964a60072e32272dd1840f79.stex" ]
+source_file="res://terrain_niv2/HFD_HemiSunset01_SmlSample.jpg"
+dest_files=[ "res://.import/HFD_HemiSunset01_SmlSample.jpg-d65920c3ef93ced30582880e667cadaa.stex" ]
 
 [params]
 
